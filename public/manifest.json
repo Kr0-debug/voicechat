@@ -26,3 +26,8 @@
     }
   ]
 }
+cd voicechat
+git remote add origin https://github.com/TWOJA_NAZWA/voicechat.git
+git branch -M main
+git push -u origin main
+

@@ -76,13 +76,13 @@ export function VoiceControls() {
           </button>
 
           {/* Connection Status */}
-          {voiceCall.status === 'connecting' && (
+          {(voiceCall.status as string) === 'connecting' && (
             <div className="flex items-center gap-1.5 text-xs text-warning ml-2">
               <Loader2 className="w-3 h-3 animate-spin" />
               Łączenie...
             </div>
           )}
-          {voiceCall.status === 'connected' && (
+          {(voiceCall.status as string) === 'connected' && (
             <div className="flex items-center gap-1.5 text-xs text-success ml-2">
               <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
               Połączono
@@ -93,3 +93,4 @@ export function VoiceControls() {
     </div>
   )
 }
+
