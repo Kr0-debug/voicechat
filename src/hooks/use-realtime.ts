@@ -77,10 +77,10 @@ export function useRealtimePresence(roomId: string | null) {
     if (!roomId) return
 
     const channel = supabase.channel(`presence:${roomId}`, {
-      configs: {
+      config: {
         presence: { key: roomId },
       },
-    })
+    } as any)
 
     channel.subscribe(async (status) => {
       if (status !== 'SUBSCRIBED') return
