@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useEffect } from 'react'
 import { Sidebar } from '@/components/layout/sidebar'
 import { MessageList } from '@/components/chat/message-list'
@@ -14,11 +16,10 @@ import {
   Users,
   Hash,
   MoreVertical,
-  LogIn,
-  Github,
+  UserPlus,
   Mail,
   Lock,
-  UserPlus,
+  Github,
 } from 'lucide-react'
 import { useState } from 'react'
 
