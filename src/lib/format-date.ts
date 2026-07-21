@@ -8,7 +8,7 @@ export function formatDistanceToNow(date: Date): string {
 
   if (diffSec < 60) return 'teraz'
   if (diffMin < 60) return `${diffMin}m`
-  if (diffHour < 24) return `${diff}h`
+  if (diffHour < 24) return `${diffHour}h`
   if (diffDay < 7) return `${diffDay}d`
 
   return date.toLocaleDateString('pl-PL', {
