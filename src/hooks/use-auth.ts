@@ -5,6 +5,8 @@ import { supabase } from '@/lib/supabase'
 import { useChatStore } from '@/store/chat-store'
 import type { Profile } from '@/types'
 
+const PROFILES_TABLE = 'my_portfolio.vc_profiles'
+
 export function useAuth() {
   const { user, setUser } = useChatStore()
 
@@ -13,7 +15,7 @@ export function useAuth() {
       const { data: { session } } = await supabase.auth.getSession()
       if (session?.user) {
         const { data: profile } = await supabase
-          .from('profiles')
+          .from(PROFILES_TABLE)
           .select('*')
           .eq('id', session.user.id)
           .single()
@@ -28,7 +30,7 @@ export function useAuth() {
       async (_event, session) => {
         if (session?.user) {
           const { data: profile } = await supabase
-            .from('profiles')
+            .from(PROFILES_TABLE)
             .select('*')
             .eq('id', session.user.id)
             .single()
@@ -53,7 +55,7 @@ export function useAuth() {
     if (error) throw error
 
     if (data.user) {
-      await supabase.from('profiles').insert({
+      await supabase.from(PROFILES_TABLE).insert({
         id: data.user.id,
         username,
         avatar_url: null,

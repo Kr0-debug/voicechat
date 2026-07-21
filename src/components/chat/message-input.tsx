@@ -6,6 +6,8 @@ import { useChatStore } from '@/store/chat-store'
 import { useAuth } from '@/hooks/use-auth'
 import { Send, Hash } from 'lucide-react'
 
+const MESSAGES_TABLE = 'my_portfolio.vc_messages'
+
 export function MessageInput() {
   const [content, setContent] = useState('')
   const { activeRoomId } = useChatStore()
@@ -15,7 +17,7 @@ export function MessageInput() {
   const sendMessage = async () => {
     if (!content.trim() || !activeRoomId || !user) return
 
-    const { error } = await supabase.from('messages').insert({
+    const { error } = await supabase.from(MESSAGES_TABLE).insert({
       room_id: activeRoomId,
       sender_id: user.id,
       content: content.trim(),

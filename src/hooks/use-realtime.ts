@@ -5,6 +5,10 @@ import { supabase } from '@/lib/supabase'
 import { useChatStore } from '@/store/chat-store'
 import type { Message } from '@/types'
 
+const MESSAGES_TABLE = 'my_portfolio.vc_messages'
+const ROOMS_TABLE = 'my_portfolio.vc_rooms'
+const PROFILES_TABLE = 'my_portfolio.vc_profiles'
+
 export function useRealtimeMessages(roomId: string | null) {
   const addMessage = useChatStore((state) => state.addMessage)
   const setMessages = useChatStore((state) => state.setMessages)
@@ -14,8 +18,8 @@ export function useRealtimeMessages(roomId: string | null) {
 
     const loadMessages = async () => {
       const { data } = await supabase
-        .from('messages')
-        .select('*, sender:profiles(*)')
+        .from(MESSAGES_TABLE)
+        .select(`*, sender:${PROFILES_TABLE}(*)`)
         .eq('room_id', roomId)
         .order('created_at', { ascending: true })
 
@@ -30,8 +34,8 @@ export function useRealtimeMessages(roomId: string | null) {
         'postgres_changes',
         {
           event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
+          schema: 'my_portfolio',
+          table: 'vc_messages',
           filter: `room_id=eq.${roomId}`,
         },
         (payload) => {
@@ -51,7 +55,11 @@ export function useRealtimeRooms() {
 
   useEffect(() => {
     const loadRooms = async () => {
-      const { data } = await supabase.from('rooms').select('*').order('created_at', { ascending: false })
+      const { data } = await supabase
+        .from(ROOMS_TABLE)
+        .select('*')
+        .order('created_at', { ascending: false })
+
       if (data) setRooms(data)
     }
 
@@ -61,7 +69,7 @@ export function useRealtimeRooms() {
       .channel('rooms')
       .on(
         'postgres_changes',
-        { event: '*', schema: 'public', table: 'rooms' },
+        { event: '*', schema: 'my_portfolio', table: 'vc_rooms' },
         () => loadRooms()
       )
       .subscribe()

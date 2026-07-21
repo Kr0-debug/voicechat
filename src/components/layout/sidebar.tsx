@@ -18,6 +18,8 @@ import {
   PhoneOff,
 } from 'lucide-react'
 
+const ROOMS_TABLE = 'my_portfolio.vc_rooms'
+
 export function Sidebar() {
   const { user, signOut } = useAuth()
   const { rooms, activeRoomId, setActiveRoom, voiceCall, setVoiceCall, resetVoiceCall, isSidebarOpen } = useChatStore()
@@ -30,7 +32,7 @@ export function Sidebar() {
   const createRoom = async () => {
     if (!newRoomName.trim() || !user) return
 
-    const { error } = await supabase.from('rooms').insert({
+    const { error } = await supabase.from(ROOMS_TABLE).insert({
       name: newRoomName.trim(),
       created_by: user.id,
       is_private: false,
